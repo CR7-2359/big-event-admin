@@ -7,23 +7,21 @@ import {
   Crop,
   EditPen,
   SwitchButton,
-  CaretBottom
+  CaretBottom,
 } from '@element-plus/icons-vue'
-import {onMounted } from 'vue'
-import {useUserStore} from '@/stores/index'
+import { onMounted } from 'vue'
+import { useUserStore } from '@/stores/index'
 import { useRouter } from 'vue-router'
 import avatar from '@/assets/default.png'
 const userStore = useUserStore()
 const router = useRouter()
-onMounted(async ()=>{
+onMounted(async () => {
   userStore.getUserInfo()
 })
 
 const handleCommand = async (command) => {
-  if(command === 'logout'){
-    await ElMessageBox.confirm(
-    '确认退出吗?','警告',
-    {
+  if (command === 'logout') {
+    await ElMessageBox.confirm('确认退出吗?', '警告', {
       confirmButtonText: '确认',
       cancelButtonText: '取消',
       type: 'warning',
@@ -32,11 +30,10 @@ const handleCommand = async (command) => {
 
     userStore.removeToken()
     userStore.setUserInfo({})
-  }else{
-    router.push(`/${command}`)
+  } else {
+    router.push(`/user/${command}`)
   }
 }
-
 </script>
 
 <template>
@@ -80,26 +77,22 @@ const handleCommand = async (command) => {
     </el-aside>
     <el-container>
       <el-header>
-        <div>黑马程序员：<strong>{{ userStore.UserInfo.nickname || userStore.UserInfo.username  }}</strong></div>
-        <el-dropdown placement="bottom-end"  @command="handleCommand">
+        <div>
+          黑马程序员：<strong>{{
+            userStore.UserInfo.nickname || userStore.UserInfo.username
+          }}</strong>
+        </div>
+        <el-dropdown placement="bottom-end" @command="handleCommand">
           <span class="el-dropdown__box">
-            <el-avatar :src="userStore.UserInfo.user_pic ||avatar" />
+            <el-avatar :src="userStore.UserInfo.user_pic || avatar" />
             <el-icon><CaretBottom /></el-icon>
           </span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item command="profile" :icon="User"
-                >基本资料</el-dropdown-item
-              >
-              <el-dropdown-item command="avatar" :icon="Crop"
-                >更换头像</el-dropdown-item
-              >
-              <el-dropdown-item command="password" :icon="EditPen"
-                >重置密码</el-dropdown-item
-              >
-              <el-dropdown-item command="logout" :icon="SwitchButton"
-                >退出登录</el-dropdown-item
-              >
+              <el-dropdown-item command="profile" :icon="User">基本资料</el-dropdown-item>
+              <el-dropdown-item command="avatar" :icon="Crop">更换头像</el-dropdown-item>
+              <el-dropdown-item command="password" :icon="EditPen">重置密码</el-dropdown-item>
+              <el-dropdown-item command="logout" :icon="SwitchButton">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
